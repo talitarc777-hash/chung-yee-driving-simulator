@@ -10,7 +10,26 @@ import {
   LOCAL_TILESET_URL,
   localTileURL,
   inspectTileModel,
+  tileRequestOptions,
+  validateTileResponse,
 } from "../../src/render/environment.ts";
+test("local tiles retain sign-in while live tiles omit credentials", () => {
+  const signal = new AbortController().signal;
+  const local = tileRequestOptions("local", { signal, credentials: "omit" });
+  assert.equal(local.credentials, "same-origin");
+  assert.equal(local.mode, "same-origin");
+  assert.equal(local.signal, signal);
+  assert.equal(tileRequestOptions("live").credentials, "omit");
+});
+test("tile responses reject errors and login HTML without exposing keys", () => {
+  const url = "https://data.map.gov.hk/api/3d-data/3dtiles/f2/tileset.json?key=secret";
+  assert.throws(() => validateTileResponse(new Response(null, { status: 403 }), url),
+    e => e.message.includes("403") && !e.message.includes("secret"));
+  assert.throws(() => validateTileResponse(new Response("login", {
+    headers: { "content-type": "text/html" },
+  }), url), /received HTML/);
+  assert.doesNotThrow(() => validateTileResponse(new Response("{}"), url));
+});
 test("root API success cannot claim a connected textured environment", () => {
   const s = { ...initialEnvironment(), api: "OK", tilesLoaded: 8 };
   assert.equal(environmentState(s, false, ""), "LOADING");

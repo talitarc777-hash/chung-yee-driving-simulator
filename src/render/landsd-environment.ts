@@ -13,6 +13,8 @@ import {
   LOCAL_TILESET_URL,
   PUBLIC_EXAMPLE_KEY,
   TILESET_URL,
+  tileRequestOptions,
+  validateTileResponse,
 } from "./environment";
 import type { TileModelStats } from "./environment";
 
@@ -126,15 +128,8 @@ export class LandsDEnvironment {
       fetchData: async (url: string, options: RequestInit) => {
         this.status.requests += 1;
         try {
-          const response = await fetch(url, {
-            ...options,
-            mode: "cors",
-            credentials: "omit",
-          });
-          if (!response.ok)
-            throw new Error(
-              `LandsD HTTP ${response.status}${response.status === 401 || response.status === 403 ? " — API key or origin authorization required." : ""}`,
-            );
+          const response = await fetch(url, tileRequestOptions(delivery, options));
+          validateTileResponse(response, url);
           if (this.tiles === tiles) this.status.api = "OK";
           return response;
         } catch (e) {
@@ -150,6 +145,9 @@ export class LandsDEnvironment {
               : e instanceof Error
                 ? e.message
                 : "LandsD request failed.";
+          this.error = this.lastLoadError;
+          this.status.status = "ERROR";
+          this.status.detail = this.error;
           throw new Error(this.lastLoadError);
         }
       },
@@ -195,9 +193,13 @@ export class LandsDEnvironment {
       else this.visible.delete(scene);
     });
     tiles.addEventListener("load-error", () => {
-      if (this.tiles === tiles)
-        this.lastLoadError =
+      if (this.tiles === tiles) {
+        this.lastLoadError ||=
           "f2 resource failed to load or decode. Inspect the browser network and console. No fallback was selected.";
+        this.error = this.lastLoadError;
+        this.status.status = "ERROR";
+        this.status.detail = this.error;
+      }
     });
   }
   setPerformanceProfile(enabled: boolean) {

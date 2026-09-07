@@ -1,6 +1,17 @@
 export const TILESET_URL =
   "https://data.map.gov.hk/api/3d-data/3dtiles/f2/tileset.json";
 export const LOCAL_TILESET_URL = "/data/landsd-track/tileset.json";
+export function tileRequestOptions(delivery: "local" | "live", options: RequestInit = {}): RequestInit {
+  return { ...options, mode: delivery === "local" ? "same-origin" : "cors",
+    credentials: delivery === "local" ? "same-origin" : "omit" };
+}
+
+export function validateTileResponse(response: Response, url: string): void {
+  const path = new URL(url).pathname; // Never expose API keys in diagnostics.
+  if (!response.ok) throw new Error(`Tile HTTP ${response.status}: ${path}`);
+  if (response.headers.get("content-type")?.includes("text/html"))
+    throw new Error(`Expected tile data but received HTML: ${path}. Check sign-in or asset routing.`);
+}
 // Published example on the official API documentation, verified 2026-09-06.
 export const PUBLIC_EXAMPLE_KEY = "3967f8f365694e0798af3e7678509421";
 export interface EnvironmentStatus {

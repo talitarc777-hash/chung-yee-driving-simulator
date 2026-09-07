@@ -87,4 +87,21 @@ Do not mark the environment visually complete until a WebGL2 run actually shows 
 
 ## GitHub
 
+## Local access correction
+
+The first local tileset request was using `credentials: omit`, inherited from the
+external API path. On this access-controlled Site that drops the viewer's session.
+Local requests now use same-origin credentials and mode; external LandsD requests
+continue to omit credentials. HTTP failures and unexpected HTML responses are reported
+immediately with the resource path, excluding query keys. Decode errors no longer
+overwrite a more specific request failure. Regression checks cover these behaviors.
+
+The supplied official Swagger UI at https://3d.map.gov.hk/api/swaggerui?api=f2_api
+redirects to the mapviewer application and constructs its specification dynamically.
+Its code uses a `/3d-data/3dtiles` base path and a host from the selected layer.
+The existing data.map.gov.hk f2 gateway was also checked and returns a 3D Tiles 1.1
+root. Local package requests do not use either external host. This correction has
+28 passing tests, TypeScript and production-build validation; authenticated browser
+rendering and driver-view alignment remain unverified.
+
 Repository write access was restored on 7 September 2026. The project source is mirrored at [talitarc777-hash/chung-yee-driving-simulator](https://github.com/talitarc777-hash/chung-yee-driving-simulator); publication of a new Site version remains a separate explicit action.
