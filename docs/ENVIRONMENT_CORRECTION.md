@@ -89,6 +89,21 @@ Do not mark the environment visually complete until a WebGL2 run actually shows 
 
 ## Local access correction
 
+### Embedded KTX2 compatibility correction
+
+After authentication was corrected, the user's panel showed 13 meshes/materials,
+zero textures and zero failed requests. Inspection of the actual B3DM GLB JSON
+found `image/ktx2` images referenced through core `texture.source` without the
+`KHR_texture_basisu` texture extension. Three.js therefore selected its ordinary
+image loader, not the installed Basis decoder. Its image-load failure can resolve
+to a null map while geometry still finishes loading.
+
+`landsd-gltf.ts` now adapts these references in memory before GLTF dependencies
+load, preserving imagery, indices, geometry and existing extensions. Both live and
+local f2 use the adapter. A real GLTFLoader integration test parses all 15 packaged
+payloads with a decoder-boundary spy and verifies decoder selection and material
+map attachment. This does not validate actual GPU transcoding or driver-view alignment.
+
 The first local tileset request was using `credentials: omit`, inherited from the
 external API path. On this access-controlled Site that drops the viewer's session.
 Local requests now use same-origin credentials and mode; external LandsD requests

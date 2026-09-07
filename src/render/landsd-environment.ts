@@ -17,6 +17,7 @@ import {
   validateTileResponse,
 } from "./environment";
 import type { TileModelStats } from "./environment";
+import { normalizeLandsDKtx2 } from "./landsd-gltf";
 
 type SpatialTile = Tile & {
   engineData: { boundingVolume: { intersectsSphere(s: T.Sphere): boolean } };
@@ -115,7 +116,12 @@ export class LandsDEnvironment {
     this.ktx2 = ktx2;
     // The plugin's v0.5.2 auto-disposer assumes a Draco loader also exists.
     tiles.registerPlugin(
-      new GLTFExtensionsPlugin({ ktxLoader: ktx2, autoDispose: false }),
+      new GLTFExtensionsPlugin({ ktxLoader: ktx2, autoDispose: false,
+        plugins: [(parser) => ({
+          name: "LANDSD_KTX2_COMPATIBILITY",
+          beforeRoot: async () => { normalizeLandsDKtx2(parser.json); },
+        })],
+      }),
     );
     this.applyPerformanceProfile(tiles);
     this.startedAt = performance.now();
