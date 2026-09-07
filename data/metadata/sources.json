@@ -1,0 +1,42 @@
+[
+  {
+    "name": "roads",
+    "url": "https://portal.csdi.gov.hk/server/rest/services/common/td_rcd_1638949160594_2844/MapServer/10/query?f=json&where=STREET_ENAME+IN+%28%27CHUNG+YEE+STREET%27%2C%27HAU+MAN+STREET%27%2C%27CHUNG+HAU+STREET%27%2C%27FAT+KWONG+STREET%27%2C%27CARMEL+VILLAGE+STREET%27%29&geometry=836300.0%2C818850.0%2C837040.0%2C819720.0&geometryType=esriGeometryEnvelope&inSR=2326&outSR=2326&outFields=%2A&returnGeometry=true&returnZ=true",
+    "sha256": "47735efcc7ba6c21d780d5aad5f8c2ffe7ae57bc6148325d547fadda9b21d932",
+    "retrieved": "2026-09-06T06:10:35.306033+00:00",
+    "crs": "EPSG:2326",
+    "records": 69
+  },
+  {
+    "name": "buildings",
+    "url": "https://portal.csdi.gov.hk/server/rest/services/common/landsd_rcd_1637211194312_35158/FeatureServer/0/query?f=json&where=1%3D1&geometry=836300.0%2C818850.0%2C837040.0%2C819720.0&geometryType=esriGeometryEnvelope&inSR=2326&outSR=2326&outFields=%2A&returnGeometry=true&returnZ=true",
+    "sha256": "6d0cfed3460ae57dfa1135b3f15ba98a1455c2afffdd4344acc9c95745bdd5ff",
+    "retrieved": "2026-09-06T06:10:35.312473+00:00",
+    "crs": "EPSG:2326",
+    "records": 285
+  },
+  {
+    "name": "outdoor",
+    "url": "https://portal.csdi.gov.hk/server/rest/services/common/landsd_rcd_1637222018065_52265/FeatureServer/0/query?f=json&where=1%3D1&geometry=836300.0%2C818850.0%2C837040.0%2C819720.0&geometryType=esriGeometryEnvelope&inSR=2326&outSR=2326&outFields=%2A&returnGeometry=true&returnZ=true",
+    "sha256": "d91b9d9f7b7daaa11a44333fef72d0d4b27388b34341129afc2db7ee98b07216",
+    "retrieved": "2026-09-06T06:10:35.326556+00:00",
+    "crs": "EPSG:2326",
+    "records": 1721
+  },
+  {
+    "name": "speeds",
+    "url": "https://portal.csdi.gov.hk/server/rest/services/common/td_rcd_1638949160594_2844/MapServer/2/query?f=json&where=1%3D1&geometry=836300.0%2C818850.0%2C837040.0%2C819720.0&geometryType=esriGeometryEnvelope&inSR=2326&outSR=2326&outFields=%2A&returnGeometry=true&returnZ=true",
+    "sha256": "b2d158b77c09157fcfc3d402e34f6826268dfdace1bb8f4ce6c4de1805ca9126",
+    "retrieved": "2026-09-06T06:10:35.326896+00:00",
+    "crs": "EPSG:2326",
+    "records": 32
+  },
+  {
+    "name": "intersections",
+    "url": "https://portal.csdi.gov.hk/server/rest/services/common/td_rcd_1638949160594_2844/MapServer/12/query?f=json&where=1%3D1&geometry=836300.0%2C818850.0%2C837040.0%2C819720.0&geometryType=esriGeometryEnvelope&inSR=2326&outSR=2326&outFields=%2A&returnGeometry=true&returnZ=true",
+    "sha256": "1c782de03e486c26de0fb370f1a44b8ba200f7190aa5ab265a4067694a2dc5b5",
+    "retrieved": "2026-09-06T06:10:35.327252+00:00",
+    "crs": "EPSG:2326",
+    "records": 82
+  }
+]

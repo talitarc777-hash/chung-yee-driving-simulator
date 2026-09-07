@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "officialPolicy": {
+    "source": "https://www.td.gov.hk/filemanager/en/publication/guide%20to%20pc%20%26%20lgv%20driving%20test_eng_202511.pdf",
+    "edition": "2025-11",
+    "verifiedOn": "2026-09-06",
+    "seriousFaultsToFail": 1,
+    "minorFaultsSameItemToEscalate": 3
+  },
+  "simulatorHeuristics": {
+    "observationWindow": 5,
+    "observationDwell": 0.35,
+    "speedGrace": 2,
+    "speedDuration": 2,
+    "clearance": 0.65
+  },
+  "notice": "Numerical detection windows, severity assignments, collision proxies and item mapping are simulator heuristics, not official automated assessment rules."
+}
