@@ -33,7 +33,11 @@ export class MapScene {
   }
   enableTiles() {
     this.environmentStatus.detail =
-      "WebGL2 is required to render f2. Enable graphics acceleration and reload; API access has not been tested by this browser.";
+      "WebGL2 is required to render the packaged f2 scenery. Enable graphics acceleration and reload.";
+  }
+  enableLiveTiles() {
+    this.environmentStatus.detail =
+      "WebGL2 is required to stream live f2 scenery. Enable graphics acceleration and reload; API access has not been tested by this browser.";
   }
   disableTiles() {
     // Already an explicitly labelled compatibility fallback.

@@ -1,6 +1,6 @@
 # Architecture
 
-**Updated visual architecture:** LandsD Tile-based photogrammetric `f2` is now the default visual environment, with separate GIS road overlay/physics. Procedural surroundings are an explicitly selected development fallback only. See [the correction audit and acceptance gates](docs/ENVIRONMENT_CORRECTION.md); it supersedes the earlier optional-streaming description below.
+**Updated visual architecture:** a route-corridor package of official LandsD Tile-based photogrammetric `f2` tiles is now the default visual environment, with separate GIS road overlay/physics. The live API remains optional, and procedural surroundings are an explicitly selected development fallback only. See [the correction audit and acceptance gates](docs/ENVIRONMENT_CORRECTION.md).
 
 React/Vinext provides the interface and Cloudflare-compatible application shell. Simulation runs entirely in the client. No account, driving history or calibration is sent to an application database.
 
@@ -27,6 +27,6 @@ Replay stores poses, controls, actor state and a reserved scenario-light state; 
 
 ## Rendering
 
-The default visible city is the government Tile-based photogrammetric f2 stream. The custom roads, kerbs and pavement ribbons remain separate and use estimated widths. Government tiles are visual only and still unverified for vertical alignment. Footprint extrusions, procedural facades and estimated terrain are hidden unless the user explicitly selects DEVELOPMENT FALLBACK. The centre mirror uses a 384×128 render target refreshed every fourth medium-quality frame; side-mirror keys currently turn the camera rather than rendering independent side mirrors.
+The default visible city is a 4.61 MiB, 15-sector route package containing official textured B3DM payloads from the government Tile-based photogrammetric f2 hierarchy. It stops at the approximately 10 m geometric-error level to cap complexity without synthesizing replacement buildings or textures. The custom roads, kerbs and pavement ribbons remain separate and use estimated widths. Government tiles are visual only and still unverified for vertical alignment. Footprint extrusions, procedural facades and estimated terrain are built only after the user explicitly selects DEVELOPMENT FALLBACK. The centre mirror uses a 384×128 render target refreshed every fifth medium-quality frame and is disabled in performance mode; side-mirror keys currently turn the camera rather than rendering independent side mirrors.
 
-Quality settings adjust resolution, shadows, mirror refresh and tile error tolerance without removing photogrammetry. Tiles have a 630 m radius AOI intersection mask, local look-ahead preloading, a 180-tile LRU budget, three downloads per origin and one parse job. Coarse parent tiles can span beyond the AOI. There is no byte-based GPU-memory budget yet. See PERFORMANCE.md for unverified rendering gates.
+Quality settings adjust resolution, shadows, mirror refresh and tile error tolerance without removing photogrammetry. The local package uses a 630 m AOI, 24-tile/64 MiB cache ceiling, three parallel reads and one parse job. Live mode retains camera culling, AOI intersection, look-ahead preloading and larger LRU budgets. Coarse parent tiles can span beyond the AOI. See PERFORMANCE.md for unverified rendering gates.

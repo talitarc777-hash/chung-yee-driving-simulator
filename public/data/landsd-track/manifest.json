@@ -1,0 +1,239 @@
+{
+  "product": "LandsD 3D Visualisation Map — Tile-based f2",
+  "sourceTileset": "https://data.map.gov.hk/api/3d-data/3dtiles/f2/11/Data/temp0/Tile_15_7_L4.json",
+  "aoiRadiusMetres": 630,
+  "maximumDepth": 3,
+  "geometricErrorRangeMetres": [
+    10.287659645080566,
+    81.85948944091797
+  ],
+  "files": [
+    {
+      "file": "tiles/Tile_15_7_L4.b3dm",
+      "bytes": 315490,
+      "sha256": "289c4f71b0760a1ed016279c2c39ef11d2849953087f845ace9d0162a65cb423",
+      "source": "https://data.map.gov.hk/api/3d-data/3dtiles/f2/11/Data/temp0/Tile_15_7_L4.b3dm",
+      "geometricError": 81.85948944091797,
+      "content": {
+        "meshes": 1,
+        "materials": 1,
+        "textures": 1,
+        "imageTypes": [
+          "image/ktx2"
+        ]
+      }
+    },
+    {
+      "file": "tiles/Tile_30_15_L3.b3dm",
+      "bytes": 357876,
+      "sha256": "66288a460aed45395c1b911d6201f3384cf6d27f65e87238527f6fe7227d3964",
+      "source": "https://data.map.gov.hk/api/3d-data/3dtiles/f2/11/Data/temp0/Tile_30_15_L3.b3dm",
+      "geometricError": 40.994808197021484,
+      "content": {
+        "meshes": 1,
+        "materials": 1,
+        "textures": 1,
+        "imageTypes": [
+          "image/ktx2"
+        ]
+      }
+    },
+    {
+      "file": "tiles/Tile_60_31_L2.b3dm",
+      "bytes": 340074,
+      "sha256": "055ad509d0506a7ad6f62a058d22f9a5b290e909145f40de52a8fbf14f618fbf",
+      "source": "https://data.map.gov.hk/api/3d-data/3dtiles/f2/11/Data/temp0/Tile_60_31_L2.b3dm",
+      "geometricError": 20.653892517089844,
+      "content": {
+        "meshes": 1,
+        "materials": 1,
+        "textures": 1,
+        "imageTypes": [
+          "image/ktx2"
+        ]
+      }
+    },
+    {
+      "file": "tiles/Tile_120_62_L1.b3dm",
+      "bytes": 260590,
+      "sha256": "d2e48311058c8564dbb2fe33c79d511db2185bd91e0c5618b0caa948096c1391",
+      "source": "https://data.map.gov.hk/api/3d-data/3dtiles/f2/11/Data/temp0/Tile_120_62_L1.b3dm",
+      "geometricError": 10.287659645080566,
+      "content": {
+        "meshes": 1,
+        "materials": 1,
+        "textures": 1,
+        "imageTypes": [
+          "image/ktx2"
+        ]
+      }
+    },
+    {
+      "file": "tiles/Tile_120_63_L1.b3dm",
+      "bytes": 332994,
+      "sha256": "2292f11128614dbd5f976574498fb4030fd16081ba331bbedbf51cd81c2e6031",
+      "source": "https://data.map.gov.hk/api/3d-data/3dtiles/f2/11/Data/temp0/Tile_120_63_L1.b3dm",
+      "geometricError": 10.639325141906738,
+      "content": {
+        "meshes": 1,
+        "materials": 1,
+        "textures": 1,
+        "imageTypes": [
+          "image/ktx2"
+        ]
+      }
+    },
+    {
+      "file": "tiles/Tile_121_62_L1.b3dm",
+      "bytes": 303458,
+      "sha256": "c14164d98bb911ec9faeb9b6593234b01d3c79d0be8a3b0dc05c5ad1c5897813",
+      "source": "https://data.map.gov.hk/api/3d-data/3dtiles/f2/11/Data/temp0/Tile_121_62_L1.b3dm",
+      "geometricError": 10.322715759277344,
+      "content": {
+        "meshes": 1,
+        "materials": 1,
+        "textures": 1,
+        "imageTypes": [
+          "image/ktx2"
+        ]
+      }
+    },
+    {
+      "file": "tiles/Tile_121_63_L1.b3dm",
+      "bytes": 291268,
+      "sha256": "449c091bdf39c666552350f0308684df94eb61ce29ff018d7b4588695fcaf32c",
+      "source": "https://data.map.gov.hk/api/3d-data/3dtiles/f2/11/Data/temp0/Tile_121_63_L1.b3dm",
+      "geometricError": 10.655088424682617,
+      "content": {
+        "meshes": 1,
+        "materials": 1,
+        "textures": 1,
+        "imageTypes": [
+          "image/ktx2"
+        ]
+      }
+    },
+    {
+      "file": "tiles/Tile_61_31_L2.b3dm",
+      "bytes": 399282,
+      "sha256": "9b47205d8e9d8b99783b1459df9ac2c8ab1b86108658da522ebf5e5d4ef7f2e8",
+      "source": "https://data.map.gov.hk/api/3d-data/3dtiles/f2/11/Data/temp0/Tile_61_31_L2.b3dm",
+      "geometricError": 20.590723037719727,
+      "content": {
+        "meshes": 1,
+        "materials": 1,
+        "textures": 1,
+        "imageTypes": [
+          "image/ktx2"
+        ]
+      }
+    },
+    {
+      "file": "tiles/Tile_122_62_L1.b3dm",
+      "bytes": 272296,
+      "sha256": "fb3bac64379fb79bc5ea27d70b12fac569b1d81b502e6d2217171ce00fee8232",
+      "source": "https://data.map.gov.hk/api/3d-data/3dtiles/f2/11/Data/temp0/Tile_122_62_L1.b3dm",
+      "geometricError": 10.331673622131348,
+      "content": {
+        "meshes": 1,
+        "materials": 1,
+        "textures": 1,
+        "imageTypes": [
+          "image/ktx2"
+        ]
+      }
+    },
+    {
+      "file": "tiles/Tile_122_63_L1.b3dm",
+      "bytes": 287976,
+      "sha256": "56310151b9da748381cb8bacaac11a707e2d13960b10bb5666ba16fa2509f5c4",
+      "source": "https://data.map.gov.hk/api/3d-data/3dtiles/f2/11/Data/temp0/Tile_122_63_L1.b3dm",
+      "geometricError": 10.475001335144043,
+      "content": {
+        "meshes": 1,
+        "materials": 1,
+        "textures": 1,
+        "imageTypes": [
+          "image/ktx2"
+        ]
+      }
+    },
+    {
+      "file": "tiles/Tile_123_62_L1.b3dm",
+      "bytes": 304454,
+      "sha256": "b41ba0ab211a11a293e85f687b44bc1621780b811e1ab8b8f92ae61cdf47d2f9",
+      "source": "https://data.map.gov.hk/api/3d-data/3dtiles/f2/11/Data/temp0/Tile_123_62_L1.b3dm",
+      "geometricError": 10.406159400939941,
+      "content": {
+        "meshes": 1,
+        "materials": 1,
+        "textures": 1,
+        "imageTypes": [
+          "image/ktx2"
+        ]
+      }
+    },
+    {
+      "file": "tiles/Tile_123_63_L1.b3dm",
+      "bytes": 304222,
+      "sha256": "4b142edba4239d17425c4ccfcd8b072dc5c7d55ac33099729aaf0da54be1c739",
+      "source": "https://data.map.gov.hk/api/3d-data/3dtiles/f2/11/Data/temp0/Tile_123_63_L1.b3dm",
+      "geometricError": 10.507134437561035,
+      "content": {
+        "meshes": 1,
+        "materials": 1,
+        "textures": 1,
+        "imageTypes": [
+          "image/ktx2"
+        ]
+      }
+    },
+    {
+      "file": "tiles/Tile_31_15_L3.b3dm",
+      "bytes": 363584,
+      "sha256": "42c93346692ed9fc333820d6ff28931d19a8dc286679f5ad6b8ae570feee5323",
+      "source": "https://data.map.gov.hk/api/3d-data/3dtiles/f2/11/Data/temp0/Tile_31_15_L3.b3dm",
+      "geometricError": 41.05854415893555,
+      "content": {
+        "meshes": 1,
+        "materials": 1,
+        "textures": 1,
+        "imageTypes": [
+          "image/ktx2"
+        ]
+      }
+    },
+    {
+      "file": "tiles/Tile_62_31_L2.b3dm",
+      "bytes": 392292,
+      "sha256": "6e047edc59367f0572704d7dcc3ac7bf55de94903429d85bb28d857679b14a72",
+      "source": "https://data.map.gov.hk/api/3d-data/3dtiles/f2/11/Data/temp0/Tile_62_31_L2.b3dm",
+      "geometricError": 20.612077713012695,
+      "content": {
+        "meshes": 1,
+        "materials": 1,
+        "textures": 1,
+        "imageTypes": [
+          "image/ktx2"
+        ]
+      }
+    },
+    {
+      "file": "tiles/Tile_124_63_L1.b3dm",
+      "bytes": 312410,
+      "sha256": "3d5444cfccd53e34782ff644ad1f655216d5251b685edbb71afd569bedfe9ae5",
+      "source": "https://data.map.gov.hk/api/3d-data/3dtiles/f2/11/Data/temp0/Tile_124_63_L1.b3dm",
+      "geometricError": 10.581342697143555,
+      "content": {
+        "meshes": 1,
+        "materials": 1,
+        "textures": 1,
+        "imageTypes": [
+          "image/ktx2"
+        ]
+      }
+    }
+  ],
+  "totalBytes": 4838266,
+  "note": "Photogrammetric visual scenery only. Custom GIS road remains the physics surface."
+}

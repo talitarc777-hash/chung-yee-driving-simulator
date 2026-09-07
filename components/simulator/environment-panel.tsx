@@ -21,6 +21,8 @@ export function EnvironmentPanel({
         <dd>{s.source}</dd>
         <dt>Tileset</dt>
         <dd>{s.tileset}</dd>
+        <dt>Delivery</dt>
+        <dd>{s.delivery}</dd>
         <dt>Status</dt>
         <dd>{s.status}</dd>
         <dt>Tiles loaded</dt>

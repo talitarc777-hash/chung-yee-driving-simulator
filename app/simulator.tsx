@@ -773,10 +773,22 @@ export default function Simulator() {
             >
               <span>
                 {tc
-                  ? "重新連接地政總署 Tile-based 實景（f2）"
-                  : "Reconnect LandsD Tile-based mesh (f2)"}
+                  ? "載入已優化的忠義街實景套件"
+                  : "Load optimized Chung Yee scenery"}
               </span>
               <span>{state?.environment.status}</span>
+            </button>
+            <button
+              disabled={!webgl}
+              className="setting-row"
+              onClick={() => sim.current?.scene.enableLiveTiles()}
+            >
+              <span>
+                {tc
+                  ? "直接串流地政總署 Tile-based 實景（f2）"
+                  : "Stream live LandsD Tile-based mesh (f2)"}
+              </span>
+              <span>LIVE</span>
             </button>
             <button
               disabled={!webgl}
@@ -789,8 +801,8 @@ export default function Simulator() {
             </button>
             <p className="subtle">
               {tc
-                ? "預設載入 Tile-based 攝影測量模型。後備場景必須手動選用；API 錯誤不會自動切換成方塊建築。道路精度及垂直對齊仍待核實。"
-                : "Tile-based photogrammetry loads by default. Procedural scenery is an explicit development fallback, never an automatic substitute for API errors. Road accuracy and vertical alignment remain unverified."}
+                ? "預設載入 4.61 MiB 忠義街實景路段套件；可手動切換至 LandsD 即時串流。後備方塊場景不會自動啟用。"
+                : "The 4.61 MiB Chung Yee photogrammetry package loads by default. Live LandsD streaming remains available manually; procedural fallback is never automatic."}
             </p>
             <button
               className="setting-row"

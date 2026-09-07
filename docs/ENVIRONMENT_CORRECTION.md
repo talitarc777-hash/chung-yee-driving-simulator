@@ -1,4 +1,4 @@
-# Visual environment correction — 6 September 2026
+# Visual environment correction — 7 September 2026
 
 ## Audit before changes
 
@@ -23,13 +23,13 @@
 
 ## Corrected architecture
 
-1. **Visible surroundings:** LandsD Tile-based photogrammetric `f2` stream, enabled automatically. Government texture maps are retained by the 3D Tiles loader. No procedurally generated city is automatically substituted after an API or decoding error.
+1. **Visible surroundings:** a same-origin, 4.61 MiB route package of 15 official LandsD Tile-based photogrammetric `f2` B3DM files, enabled automatically. It preserves the government KTX2 texture maps and approximately 10–82 m geometric-error hierarchy. Live f2 streaming remains selectable for diagnosis and comparison. No procedurally generated city is automatically substituted after an error.
 2. **Custom road overlay:** the existing separate GIS-derived asphalt/kerb/pavement/marking group remains enabled. Estimated widths and pavement-derived gradients are still unvalidated. This change does not make them exact.
 3. **Physics road:** the existing road projection and Rapier actor contacts remain independent of streamed scenery. No photogrammetry collider is created.
 4. **Dynamic scene:** learner car, traffic, pedestrian and cockpit remain separate from both road data and government scenery.
 5. **Development fallback:** procedural buildings/terrain are hidden unless selected explicitly in Settings. A device without WebGL reports DEVELOPMENT FALLBACK and displays its existing 2D compatibility map, with API NOT REQUESTED rather than a false API failure.
 
-`src/render/landsd-environment.ts` owns tile loading, ECEF-to-local placement, request failures, tile/texture counters and loading bounds. `environment.ts` contains the endpoint and testable status policy. The panel requires API success AND a textured model selected for rendering before CONNECTED. That label means resource/render-selection readiness, not a passed visual comparison. API errors, decode errors and a 45-second absence of visible textured tiles remain explicit; reconnection is manual.
+`scripts/landsd/build_track_tiles.mjs` reproducibly prunes the official hierarchy to the route AOI, downloads the selected payloads and validates that every B3DM contains meshes, materials and KTX2 textures. This is a packaging and LOD selection step, not a hand-modelled city and not a physics mesh. `src/render/landsd-environment.ts` owns tile loading, ECEF-to-local placement, failures, counters and loading bounds. `environment.ts` contains the endpoints and testable status policy. The panel requires successful access AND a textured model selected for rendering before CONNECTED. That label means resource/render-selection readiness, not a passed visual comparison. Decode errors and the absence of visible textured tiles remain explicit; reconnection is manual.
 
 ## Loading budget
 
@@ -37,7 +37,8 @@
 - Main camera far plane: 650 m; camera frustum/SSE controls refinement inside the AOI.
 - SSE targets: high 8, medium 16, performance 32.
 - Coarse preloading in a 65 m radius region centred 50 m ahead of the car; refinement target about 8 m geometric error. This is local look-ahead preloading, not full-route high-resolution preloading.
-- No sibling prefetch; standard cache 180 tiles / 320 MB, performance cache 110 tiles / 180 MB; three concurrent downloads per origin, one parse job.
+- Same-origin package: 15 payloads, 4.61 MiB total, 24-tile / 64 MiB cache ceiling, three concurrent reads and one parse job.
+- Live mode: no sibling prefetch; standard cache 180 tiles / 320 MB, performance cache 110 tiles / 180 MB.
 - Quality modes retain the photogrammetric stream. They never switch to boxes to satisfy an FPS target.
 
 ## KTX2 texture correction and lightweight profile
@@ -53,15 +54,32 @@ than `instanceof`, which is unreliable when different packages resolve separate 
 module instances. The panel reports mesh, material, texture-reference, request, failure,
 and cache counters.
 
-The mobile default is **SMOOTH PERFORMANCE**. This uses the coarser meshes already
-present in LandsD's official 3D Tiles LOD hierarchy, a 180 MB tile-cache ceiling, reduced
-pixel density, and disabled dynamic shadows. It is a simplified LandsD-derived view, not
-a procedural replacement. The accurate custom road and Rapier physics surface remain
-independent.
+The mobile default is **SMOOTH PERFORMANCE**. It uses the coarser meshes already
+present in LandsD's official 3D Tiles LOD hierarchy, reduced pixel density, disabled
+dynamic shadows and no rendered centre mirror. Menu/result rendering is capped at 20 FPS;
+driving and replay retain continuous rendering with fixed 60 Hz physics. Procedural terrain
+and building meshes are not constructed unless the fallback is explicitly selected. This
+is a simplified LandsD-derived view, not a procedural replacement. The custom road and
+Rapier physics surface remain independent.
+
+## Why this follows racing-game practice
+
+Web racing scenes are normally authored as bounded track sectors rather than loading an
+entire city at maximum detail. Their main tools are offline asset preparation, spatial
+sectors, multiple LODs, compressed GPU textures, frustum/distance culling, small draw and
+memory budgets, and a simple dedicated collision surface. This implementation applies
+those principles while retaining the official LandsD photographic texture and geometry:
+same-origin route sectors, existing f2 LODs, KTX2/Basis decoding, camera SSE/culling, a
+bounded cache, and the independent custom physics road.
+
+The project does **not** yet run a lossy mesh-decimation/retexture pass. That would require
+measured triangle, UV-seam and visual-comparison results on target hardware. Selecting the
+official coarse LOD is currently the lower-risk simplification because it preserves source
+materials and geographic form.
 
 ## Acceptance gates still open
 
-Validation in this correction: 23 tests passed, TypeScript and lint passed. The live preview reports WebGL2 unavailable, FALLBACK, 0 loaded/textured tiles, API NOT REQUESTED, custom road ON and physics road ON. Open3Dhk was also opened but did not produce a usable 3D reference in this browser; its console repeatedly reported an undefined `clock`. Therefore no driver-view comparison or GPU frame-time acceptance was performed.
+Automated tests verify package completeness, path confinement, KTX2/material detection and status policy. TypeScript, lint and production-build checks are required before each commit. The available automated preview reports WebGL2 unavailable, so it cannot establish driver-view appearance or GPU frame time. Therefore no Open3Dhk comparison or 60 FPS acceptance is claimed here.
 
 Driver-eye comparison with Open3Dhk is required at Chung Yee Street, Hau Man Street junction and the next route section. Check buildings, retaining walls, vegetation, texture detail and road placement. Actual WGS84 vertical datum to HKPD registration remains unvalidated; the existing local transform has no claimed surveyed vertical correction. Road masking/compositing where the mesh road occludes the custom road must be validated after that alignment; this patch does not pretend to solve it by rendering roads through buildings.
 
@@ -69,4 +87,4 @@ Do not mark the environment visually complete until a WebGL2 run actually shows 
 
 ## GitHub
 
-The user-requested retry on 6 September 2026 again returned HTTP 403 `Resource not accessible by integration` for the initial README write. No GitHub mutation succeeded. Do not bypass that integration restriction with alternate credentials. Preserve the correction in local Git and the private source copy until repository write access is restored.
+Repository write access was restored on 7 September 2026. The project source is mirrored at [talitarc777-hash/chung-yee-driving-simulator](https://github.com/talitarc777-hash/chung-yee-driving-simulator); publication of a new Site version remains a separate explicit action.

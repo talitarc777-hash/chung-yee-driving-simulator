@@ -79,6 +79,7 @@ export class Simulation {
   last = 0;
   accumulator = 0;
   publishTime = 0;
+  lastRender = 0;
   replayTime = 0;
   replayPlaying = false;
   fps = 60;
@@ -520,7 +521,11 @@ export class Simulation {
         actors = f.actors;
       }
     }
-    this.scene.render(v, c, actors, this.phase === "ready");
+    const activeView = this.phase === "driving" || this.phase === "replay";
+    if (activeView || now - this.lastRender >= 50) {
+      this.lastRender = now;
+      this.scene.render(v, c, actors, this.phase === "ready");
+    }
     if (now - this.publishTime > 100) {
       this.publishTime = now;
       const n = nearestRoad(v.x, v.z, this.data.roads);

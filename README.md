@@ -1,6 +1,6 @@
 # 忠義街 · Chung Yee Driving Practice
 
-**Visual correction:** the main environment now requests LandsD Tile-based photogrammetric **f2** automatically. Procedural city geometry is a labelled development fallback, not the intended final environment. See [environment audit, implementation and open visual acceptance tests](docs/ENVIRONMENT_CORRECTION.md).
+**Visual correction:** the main environment now loads an optimized, same-origin Chung Yee Street package built from official LandsD Tile-based photogrammetric **f2** content. The live f2 API remains selectable for comparison. Procedural city geometry is a labelled development fallback, not the intended final environment. See [environment audit, implementation and open visual acceptance tests](docs/ENVIRONMENT_CORRECTION.md).
 
 Browser driving-practice prototype for Chung Yee Street, Ho Man Tin, Hong Kong. It uses official street centrelines and building footprints, with a Three.js cockpit, progressive keyboard input, configurable Gamepad calibration, training fault evidence and session replay.
 

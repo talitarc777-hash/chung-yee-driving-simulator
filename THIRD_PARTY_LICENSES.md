@@ -1,8 +1,8 @@
 # Third-party software and data
 
-Government-derived data and optional scenery are attributed in the interface to **© The Government of the Hong Kong Special Administrative Region — Lands Department / Transport Department**. See the CSDI source links and metadata in DATA_SOURCES.md. Retain attribution when distributing processed extracts. The government API documentation describes free use subject to its conditions, availability and as-is disclaimers. This project does not imply government endorsement, and no proprietary map imagery is included.
+Government-derived data and scenery are attributed in the interface to **© The Government of the Hong Kong Special Administrative Region — Lands Department / Transport Department**. The repository includes a small route-corridor extract of official LandsD f2 textured B3DM payloads. See the CSDI source links and metadata in DATA_SOURCES.md, retain attribution when distributing the extract, and review the current official API/data terms before redistribution. This project does not imply government endorsement.
 
-The LandsD key in `src/render/environment.ts` is the publicly documented example key, not a private credential. Service availability and quota are outside this project's control. The default photogrammetric environment depends on the streaming endpoint; fallback practice is labelled separately.
+The LandsD key in `src/render/environment.ts` is the publicly documented example key, not a private credential. Service availability and quota affect live mode but no longer block the same-origin default package. Fallback practice is labelled separately.
 
 Primary dependencies: Three.js (MIT), 3D Tiles Renderer (Apache-2.0), Rapier (Apache-2.0), React (MIT), Vinext (MIT), Vite (MIT), Next.js (MIT), lucide icons (ISC). The locally served Basis Universal transcoder used to decode LandsD's KTX2 textures is Apache-2.0 and comes from the installed Three.js distribution. Exact versions and all transitive dependencies are pinned by `package-lock.json`; retain the individual packages' LICENSE/NOTICE files in redistribution. The bundled shadcn styling notice is in `vendor/shadcn-tailwind-4.13.0.LICENSE.md`.
 

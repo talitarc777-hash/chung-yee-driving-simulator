@@ -2,7 +2,7 @@
 
 Target: Chrome/Edge on a modern Windows gaming PC, 1920×1080, stable 60 FPS. **This target has not been measured or met as an acceptance claim.** The available remote browser has WebGL disabled, so it could test only the Canvas compatibility view and React/session flow.
 
-Implemented budgets: fixed 60 Hz physics, 10 Hz React snapshots, 10 Hz replay (maximum 18,000 frames), 384×128 centre mirror refreshed every fourth medium-quality frame, capped render pixel ratio, low-quality shadows disabled, optional 3D tile cache maximum 180 entries and limited loading concurrency. Snapshot diagnostics show sampled FPS, draw calls, triangle counts, position and controls. FPS on a Canvas fallback is not 3D performance evidence.
+Implemented budgets: fixed 60 Hz physics, 10 Hz React snapshots, 10 Hz replay (maximum 18,000 frames), 20 FPS rendering while menus/results are idle, capped render pixel ratio, low-quality shadows disabled, and limited tile parsing/loading concurrency. The centre mirror is 384×128, refreshed every fifth medium-quality frame and disabled in performance mode. The default scenery is a 15-sector, 4.61 MiB local package from LandsD f2 coarse LODs, bounded to 24 cached tiles / 64 MiB. Snapshot diagnostics show sampled FPS, draw calls, triangle counts, position and controls. FPS on a Canvas fallback is not 3D performance evidence.
 
 ## Evidence recorded during development
 

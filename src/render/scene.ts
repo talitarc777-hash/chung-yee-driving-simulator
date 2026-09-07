@@ -18,6 +18,7 @@ export class DrivingScene {
   sun = new T.DirectionalLight(0xfff4df, 2.6);
   environment: LandsDEnvironment;
   developmentFallback = new T.Group();
+  developmentFallbackBuilt = false;
   scenery = new T.Group();
   vehicles = new Map<number, T.Group>();
   wheel = new T.Group();
@@ -190,18 +191,6 @@ export class DrivingScene {
       paint = this.mat(0xede8d4);
     roadMat.polygonOffset = true;
     roadMat.polygonOffsetFactor = -1;
-    // Ground is only visual. Vehicle contact follows separate road data.
-    const g = new T.PlaneGeometry(1600, 1600, 70, 70);
-    g.rotateX(-Math.PI / 2);
-    const pos = g.attributes.position;
-    for (let i = 0; i < pos.count; i++) {
-      const n = nearestRoad(pos.getX(i), pos.getZ(i), this.world.roads);
-      pos.setY(i, n.hit.y - 0.4);
-    }
-    g.computeVertexNormals();
-    const ground = new T.Mesh(g, this.mat(0x87917c));
-    ground.receiveShadow = true;
-    this.developmentFallback.add(ground);
     for (const r of this.world.roads) {
       this.scenery.add(
         this.ribbon(r.points, r.width + 3, walk, 0, -0.02),
@@ -218,6 +207,22 @@ export class DrivingScene {
           );
       }
     }
+  }
+  buildDevelopmentFallback() {
+    if (this.developmentFallbackBuilt) return;
+    this.developmentFallbackBuilt = true;
+    // Ground is only visual. Vehicle contact follows separate road data.
+    const g = new T.PlaneGeometry(1600, 1600, 70, 70);
+    g.rotateX(-Math.PI / 2);
+    const pos = g.attributes.position;
+    for (let i = 0; i < pos.count; i++) {
+      const n = nearestRoad(pos.getX(i), pos.getZ(i), this.world.roads);
+      pos.setY(i, n.hit.y - 0.4);
+    }
+    g.computeVertexNormals();
+    const ground = new T.Mesh(g, this.mat(0x87917c));
+    ground.receiveShadow = true;
+    this.developmentFallback.add(ground);
     const win = this.texture("windows");
     for (const b of this.world.buildings) {
       const shape = new T.Shape(
@@ -378,10 +383,15 @@ export class DrivingScene {
   }
   enableTiles() {
     this.developmentFallback.visible = false;
-    this.environment.start();
+    this.environment.start("local");
+  }
+  enableLiveTiles() {
+    this.developmentFallback.visible = false;
+    this.environment.start("live");
   }
   disableTiles() {
     this.environment.setFallback();
+    this.buildDevelopmentFallback();
     this.developmentFallback.visible = true;
   }
   render(v: Vehicle, c: Control, actors: Actor[], overview = false) {
@@ -445,7 +455,8 @@ export class DrivingScene {
     if (
       !overview &&
       this.view === "cockpit" &&
-      this.frame++ % (this.quality === "high" ? 2 : 4) === 0
+      this.quality !== "performance" &&
+      this.frame++ % (this.quality === "high" ? 2 : 5) === 0
     ) {
       this.cockpit.visible = false;
       this.mirrorCamera.position.set(v.x, v.y + 1.5, v.z);

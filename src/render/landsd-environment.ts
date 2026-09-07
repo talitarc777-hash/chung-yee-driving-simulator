@@ -9,6 +9,8 @@ import {
   environmentState,
   initialEnvironment,
   inspectTileModel,
+  localTileURL,
+  LOCAL_TILESET_URL,
   PUBLIC_EXAMPLE_KEY,
   TILESET_URL,
 } from "./environment";
@@ -68,16 +70,32 @@ export class LandsDEnvironment {
     this.ecefToLocal.copy(this.localToECEF).invert();
     this.aoi.applyMatrix4(this.localToECEF);
   }
-  start(key = PUBLIC_EXAMPLE_KEY) {
+  start(
+    delivery: "local" | "live" = "local",
+    key = PUBLIC_EXAMPLE_KEY,
+  ) {
     this.stop();
     this.fallback = false;
     this.error = "";
     this.lastLoadError = "";
     this.status = initialEnvironment();
     this.status.api = "PENDING";
+    this.status.delivery =
+      delivery === "local" ? "LOCAL TRACK PACKAGE" : "LIVE API";
+    this.status.source =
+      delivery === "local"
+        ? "LandsD f2 — optimized Chung Yee corridor"
+        : "LandsD 3D Visualisation Map — Tile-based";
     this.status.detail =
-      "Loading f2 photogrammetric mesh; no procedural city substitution. Vertical alignment is unverified.";
-    const tiles = new TilesRenderer(authenticatedTileURL(TILESET_URL, key));
+      delivery === "local"
+        ? "Loading the fixed 4.61 MiB LandsD-derived route package; no procedural city substitution."
+        : "Loading live f2 photogrammetric mesh; no procedural city substitution. Vertical alignment is unverified.";
+    const applicationOrigin = window.location.origin;
+    const tilesetURL =
+      delivery === "local"
+        ? localTileURL(LOCAL_TILESET_URL, applicationOrigin)
+        : authenticatedTileURL(TILESET_URL, key);
+    const tiles = new TilesRenderer(tilesetURL);
     this.tiles = tiles;
     tiles.group.matrix.copy(this.ecefToLocal);
     tiles.group.matrixAutoUpdate = false;
@@ -101,7 +119,10 @@ export class LandsDEnvironment {
     this.startedAt = performance.now();
     tiles.registerPlugin({
       name: "landsd-f2-access-and-aoi",
-      preprocessURL: (url: string) => authenticatedTileURL(url, key),
+      preprocessURL: (url: string) =>
+        delivery === "local"
+          ? localTileURL(url, applicationOrigin)
+          : authenticatedTileURL(url, key),
       fetchData: async (url: string, options: RequestInit) => {
         this.status.requests += 1;
         try {
@@ -123,7 +144,9 @@ export class LandsDEnvironment {
           this.status.failedRequests += 1;
           this.lastLoadError =
             e instanceof TypeError
-              ? "LandsD browser fetch failed. Check Network for CORS, connectivity or origin authorization; the browser does not distinguish these here."
+              ? delivery === "local"
+                ? "The packaged Chung Yee scenery could not be read from this site."
+                : "LandsD browser fetch failed. Check Network for CORS, connectivity or origin authorization; the browser does not distinguish these here."
               : e instanceof Error
                 ? e.message
                 : "LandsD request failed.";
@@ -183,18 +206,31 @@ export class LandsDEnvironment {
     if (this.tiles) this.applyPerformanceProfile(this.tiles);
   }
   private applyPerformanceProfile(tiles: TilesRenderer) {
+    const local = this.status.delivery === "LOCAL TRACK PACKAGE";
     this.status.visualProfile = this.performanceProfile
       ? "SMOOTH PERFORMANCE"
       : "STANDARD";
     tiles.errorTarget = this.performanceProfile ? 32 : 16;
-    tiles.lruCache.maxSize = this.performanceProfile ? 110 : 180;
-    tiles.lruCache.minSize = this.performanceProfile ? 55 : 100;
-    tiles.lruCache.maxBytesSize = this.performanceProfile
-      ? 180 * 1024 * 1024
-      : 320 * 1024 * 1024;
-    tiles.lruCache.minBytesSize = this.performanceProfile
-      ? 110 * 1024 * 1024
-      : 220 * 1024 * 1024;
+    tiles.lruCache.maxSize = local
+      ? 24
+      : this.performanceProfile
+        ? 110
+        : 180;
+    tiles.lruCache.minSize = local
+      ? 15
+      : this.performanceProfile
+        ? 55
+        : 100;
+    tiles.lruCache.maxBytesSize = local
+      ? 64 * 1024 * 1024
+      : this.performanceProfile
+        ? 180 * 1024 * 1024
+        : 320 * 1024 * 1024;
+    tiles.lruCache.minBytesSize = local
+      ? 32 * 1024 * 1024
+      : this.performanceProfile
+        ? 110 * 1024 * 1024
+        : 220 * 1024 * 1024;
   }
   update(renderer: T.WebGLRenderer, v: Vehicle) {
     const tiles = this.tiles;
@@ -229,13 +265,14 @@ export class LandsDEnvironment {
       this.status.api = "OK";
     }
     if (
-      performance.now() - this.startedAt > 45000 &&
+      performance.now() - this.startedAt >
+        (this.status.delivery === "LOCAL TRACK PACKAGE" ? 20000 : 45000) &&
       !this.status.visibleTexturedTiles &&
       !this.error
     ) {
       this.error = this.lastLoadError
         ? `${this.lastLoadError} KTX2 decoder is installed; inspect failed-request and material counters.`
-        : "No visible textured tile after 45 seconds. KTX2 decoder is installed; check AOI/camera alignment and cache saturation.";
+        : `${this.status.delivery === "LOCAL TRACK PACKAGE" ? "Packaged" : "Live"} textured tiles were not visible before the loading deadline. KTX2 decoder is installed; check camera alignment and cache saturation.`;
     }
     this.status.status = environmentState(
       this.status,
@@ -245,7 +282,9 @@ export class LandsDEnvironment {
     if (this.error) this.status.detail = this.error;
     else if (this.status.status === "CONNECTED")
       this.status.detail =
-        "Textured f2 tiles are selected for rendering. Driver-view/Open3Dhk comparison and vertical alignment are not yet validated.";
+        this.status.delivery === "LOCAL TRACK PACKAGE"
+          ? "Optimized LandsD f2 corridor is rendered from local sectors. Driver-view alignment remains unverified."
+          : "Textured live f2 tiles are selected for rendering. Driver-view/Open3Dhk comparison and vertical alignment are not yet validated.";
   }
   setFallback() {
     this.stop();

@@ -1,5 +1,6 @@
 export const TILESET_URL =
   "https://data.map.gov.hk/api/3d-data/3dtiles/f2/tileset.json";
+export const LOCAL_TILESET_URL = "/data/landsd-track/tileset.json";
 // Published example on the official API documentation, verified 2026-09-06.
 export const PUBLIC_EXAMPLE_KEY = "3967f8f365694e0798af3e7678509421";
 export interface EnvironmentStatus {
@@ -18,6 +19,7 @@ export interface EnvironmentStatus {
   cacheMB: number;
   cacheFull: boolean;
   visualProfile: "STANDARD" | "SMOOTH PERFORMANCE";
+  delivery: "LOCAL TRACK PACKAGE" | "LIVE API";
   roadOverlay: boolean;
   physicsRoad: boolean;
   detail: string;
@@ -39,6 +41,7 @@ export function initialEnvironment(): EnvironmentStatus {
     cacheMB: 0,
     cacheFull: false,
     visualProfile: "STANDARD",
+    delivery: "LOCAL TRACK PACKAGE",
     roadOverlay: true,
     physicsRoad: false,
     detail:
@@ -95,5 +98,16 @@ export function authenticatedTileURL(url: string, key: string): string {
   )
     throw new Error("Unexpected tileset resource origin or product.");
   u.searchParams.set("key", key);
+  return u.href;
+}
+
+export function localTileURL(url: string, applicationOrigin: string): string {
+  const origin = new URL(applicationOrigin).origin;
+  const u = new URL(url, new URL(LOCAL_TILESET_URL, origin));
+  if (
+    u.origin !== origin ||
+    !u.pathname.startsWith("/data/landsd-track/")
+  )
+    throw new Error("Unexpected local track resource path.");
   return u.href;
 }

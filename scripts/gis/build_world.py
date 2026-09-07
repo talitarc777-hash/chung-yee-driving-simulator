@@ -69,7 +69,7 @@ def main():
   if h<1:continue
   buildings.append({'rings':[[[round(e-ORIGIN[0],2),round(ORIGIN[1]-n,2)] for e,n,*_ in ring] for ring in rings],'base':a['BaseHeight'],'height':h,'name':a.get('BuildingNameEN') or ''})
  lon,lat=Transformer.from_crs(2326,4326,always_xy=True).transform(*ORIGIN)
- data={'origin':ORIGIN,'originWGS84':[lon,lat],'roads':roads,'surfaces':[],'markings':[],'buildings':buildings,'heights':[[round(e-ORIGIN[0],2),round(h,2),round(ORIGIN[1]-n,2)] for e,n,h in pts], 'metadata':{'crs':'EPSG:2326','heightDatum':'HKPD; pavement proxy, unvalidated for driving','aoi':AOI,'centreline':'TD Road Network 2026-08-31','roadWidths':'estimated','scenery':'LandsD Building footprints/heights; procedural facades; optional 3D Visualisation Map','notOfficialRoute':True,'sources':manifest}}
+ data={'origin':ORIGIN,'originWGS84':[lon,lat],'roads':roads,'surfaces':[],'markings':[],'buildings':buildings,'heights':[[round(e-ORIGIN[0],2),round(h,2),round(ORIGIN[1]-n,2)] for e,n,h in pts], 'metadata':{'crs':'EPSG:2326','heightDatum':'HKPD; pavement proxy, unvalidated for driving','aoi':AOI,'centreline':'TD Road Network 2026-08-31','roadWidths':'estimated','scenery':'Local optimized LandsD f2 corridor by default; live f2 optional; procedural development fallback explicit only','notOfficialRoute':True,'sources':manifest}}
  (ROOT/'data/metadata').mkdir(parents=True,exist_ok=True);(ROOT/'public/data').mkdir(parents=True,exist_ok=True);(ROOT/'public/data/world.json').write_text(json.dumps(data,separators=(',',':'),ensure_ascii=False));(ROOT/'data/metadata/sources.json').write_text(json.dumps(manifest,indent=2))
  print(f'{len(roads)} road segments; {len(buildings)} real buildings; {len(pts)} pavement height points')
 if __name__=='__main__':main()
